@@ -1,0 +1,23 @@
+﻿{
+    "name": "diet-tracking-backend",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Simple Node/Express backend for diet-tracking frontend (file-db).",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js",
+      "dev": "nodemon index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+      "cors": "^2.8.5",
+      "express": "^4.18.2",
+      "morgan": "^1.10.0",
+      "nanoid": "^4.0.0"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.22"
+    }
+  }
