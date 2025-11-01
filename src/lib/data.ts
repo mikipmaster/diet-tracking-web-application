@@ -1,4 +1,4 @@
-import { Utensils, Coffee, Salad, Soup, Apple, Egg, Milk, Wheat } from "lucide-react";
+import { Utensils, Coffee, Salad, Soup, Apple } from "lucide-react";
 import { Icon as LucideIcon } from "lucide-react";
 
 // --- Core Interfaces ---
@@ -18,21 +18,6 @@ export interface FoodItem {
   nutrientsPer100g: Nutrients;
 }
 
-export interface RecipeIngredient {
-  foodId: string;
-  quantityGrams: number;
-  name: string; // Snapshot name
-}
-
-export interface Recipe {
-  id: string;
-  name: string;
-  description: string;
-  ingredients: RecipeIngredient[];
-  computedNutrients: Nutrients; // Nutrients for the whole recipe
-  servings: number;
-}
-
 export interface MealEntry {
   id: string;
   foodId: string;
@@ -47,18 +32,6 @@ export interface Meal {
   icon: LucideIcon;
   entries: MealEntry[];
 }
-
-// Helper function to calculate nutrients for a given quantity
-const calculateNutrients = (food: FoodItem, quantityGrams: number): Nutrients => {
-  const factor = quantityGrams / 100;
-  return {
-    kcal: Math.round(food.nutrientsPer100g.kcal * factor),
-    protein: parseFloat((food.nutrientsPer100g.protein * factor).toFixed(1)),
-    carbs: parseFloat((food.nutrientsPer100g.carbs * factor).toFixed(1)),
-    fat: parseFloat((food.nutrientsPer100g.fat * factor).toFixed(1)),
-    fiber: parseFloat((food.nutrientsPer100g.fiber * factor).toFixed(1)),
-  };
-};
 
 // --- Mock Data ---
 
@@ -88,50 +61,24 @@ export const MOCK_FOOD_ITEMS: FoodItem[] = [
     name: "Płatki owsiane",
     nutrientsPer100g: { kcal: 389, protein: 16.9, carbs: 66.3, fat: 6.9, fiber: 10.6 },
   },
-  {
-    id: "f6",
-    name: "Mleko 2%",
-    nutrientsPer100g: { kcal: 50, protein: 3.4, carbs: 4.8, fat: 2.0, fiber: 0 },
-  },
-  {
-    id: "f7",
-    name: "Banan",
-    nutrientsPer100g: { kcal: 89, protein: 1.1, carbs: 22.8, fat: 0.3, fiber: 2.6 },
-  },
 ];
 
-// Mock Recipes (using existing food IDs)
-export const MOCK_RECIPES: Recipe[] = [
-  {
-    id: 'r1',
-    name: 'Owsianka na mleku z bananem',
-    description: 'Klasyczna owsianka, idealna na śniadanie.',
-    ingredients: [
-      { foodId: 'f5', quantityGrams: 50, name: 'Płatki owsiane' },
-      { foodId: 'f6', quantityGrams: 200, name: 'Mleko 2%' },
-      { foodId: 'f7', quantityGrams: 100, name: 'Banan' },
-    ],
-    computedNutrients: { kcal: 450, protein: 18.5, carbs: 75.9, fat: 9.4, fiber: 7.9 }, // Mock computed total
-    servings: 1,
-  },
-  {
-    id: 'r2',
-    name: 'Kurczak z ryżem i oliwą',
-    description: 'Podstawowy posiłek potreningowy.',
-    ingredients: [
-      { foodId: 'f1', quantityGrams: 150, name: 'Pierś z kurczaka (gotowana)' },
-      { foodId: 'f2', quantityGrams: 100, name: 'Ryż biały (gotowany)' },
-      { foodId: 'f3', quantityGrams: 10, name: 'Oliwa z oliwek' },
-    ],
-    computedNutrients: { kcal: 467, protein: 49.5, carbs: 28.3, fat: 14.4, fiber: 0.4 },
-    servings: 1,
-  },
-];
-
+// Helper function to calculate nutrients for a given quantity
+const calculateNutrients = (food: FoodItem, quantityGrams: number): Nutrients => {
+  const factor = quantityGrams / 100;
+  return {
+    kcal: Math.round(food.nutrientsPer100g.kcal * factor),
+    protein: parseFloat((food.nutrientsPer100g.protein * factor).toFixed(1)),
+    carbs: parseFloat((food.nutrientsPer100g.carbs * factor).toFixed(1)),
+    fat: parseFloat((food.nutrientsPer100g.fat * factor).toFixed(1)),
+    fiber: parseFloat((food.nutrientsPer100g.fiber * factor).toFixed(1)),
+  };
+};
 
 // --- Mock Journal Data for Today ---
 
 const chicken = MOCK_FOOD_ITEMS[0];
+const rice = MOCK_FOOD_ITEMS[1];
 const oats = MOCK_FOOD_ITEMS[4];
 
 export const MOCK_MEAL_ENTRIES: Meal[] = [
@@ -163,10 +110,10 @@ export const MOCK_MEAL_ENTRIES: Meal[] = [
       },
       {
         id: "e3",
-        foodId: MOCK_FOOD_ITEMS[1].id,
-        name: MOCK_FOOD_ITEMS[1].name,
+        foodId: rice.id,
+        name: rice.name,
         quantityGrams: 100,
-        computedNutrients: calculateNutrients(MOCK_FOOD_ITEMS[1], 100),
+        computedNutrients: calculateNutrients(rice, 100),
       },
     ],
   },

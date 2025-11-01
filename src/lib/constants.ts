@@ -1,4 +1,4 @@
-import { Utensils, Calendar, LayoutDashboard, LineChart, User, BookOpen, Bell } from "lucide-react";
+import { Utensils, Calendar, LayoutDashboard, LineChart, User } from "lucide-react";
 import { Icon as LucideIcon } from "lucide-react";
 
 interface NavLink {
@@ -24,19 +24,9 @@ export const NAV_LINKS: NavLink[] = [
     icon: Utensils,
   },
   {
-    title: "Biblioteka",
-    href: "/library",
-    icon: BookOpen,
-  },
-  {
     title: "Analityka",
     href: "/analytics",
     icon: LineChart,
-  },
-  {
-    title: "Powiadomienia",
-    href: "/notifications",
-    icon: Bell,
   },
   {
     title: "Profil",
