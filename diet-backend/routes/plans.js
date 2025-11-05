@@ -1,37 +1,27 @@
 ﻿import express from "express";
-import { getDb, saveDb } from "../lib/db.js";
 import { nanoid } from "nanoid";
+import { getPlans, addPlan, updatePlan, deletePlan } from "../lib/db-sqlite.js";
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  const db = getDb();
-  res.json(db.plans || []);
+  res.json(getPlans());
 });
 
 router.post("/", (req, res) => {
-  const db = getDb();
-  const plan = { id: "p_" + nanoid(8), ...req.body };
-  db.plans = db.plans || [];
-  db.plans.push(plan);
-  saveDb(db);
+  const id = req.body.id || ("p_" + nanoid(8));
+  const plan = addPlan({ id, ...req.body });
   res.status(201).json(plan);
 });
 
 router.put("/:id", (req, res) => {
-  const db = getDb();
-  db.plans = db.plans || [];
-  const idx = db.plans.findIndex((p) => p.id === req.params.id);
-  if (idx === -1) return res.status(404).json({ error: "Not found" });
-  db.plans[idx] = { ...db.plans[idx], ...req.body };
-  saveDb(db);
-  res.json(db.plans[idx]);
+  const updated = updatePlan(req.params.id, req.body);
+  if (!updated) return res.status(404).json({ error: "Not found" });
+  res.json(updated);
 });
 
 router.delete("/:id", (req, res) => {
-  const db = getDb();
-  db.plans = (db.plans || []).filter((p) => p.id !== req.params.id);
-  saveDb(db);
+  deletePlan(req.params.id);
   res.json({ ok: true });
 });
 

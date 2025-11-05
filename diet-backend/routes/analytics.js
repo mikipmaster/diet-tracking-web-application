@@ -1,16 +1,14 @@
 ﻿import express from "express";
-import { getDb } from "../lib/db.js";
+import { getWeightAnalytics, getMacroAnalytics } from "../lib/db-sqlite.js";
 
 const router = express.Router();
 
 router.get("/weight", (req, res) => {
-  const db = getDb();
-  res.json((db.analytics && db.analytics.weight) || []);
+  res.json(getWeightAnalytics());
 });
 
 router.get("/macros", (req, res) => {
-  const db = getDb();
-  res.json((db.analytics && db.analytics.macros_week) || []);
+  res.json(getMacroAnalytics());
 });
 
 export default router;
